@@ -23,8 +23,10 @@ class _TestPage extends State<TestPage> {
         Container(
           width: 200,
           height: 50,
-          child: RaisedButton(
-            child: Text('click me'),
+          child: RaisedButton.icon(
+            icon: Icon(Icons.repeat),
+            label: Text('click me'),
+//            child: Text('click me'),
             color: Colors.blue,
             textColor: Colors.white,
             elevation: 100,
