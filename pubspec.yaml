@@ -27,6 +27,7 @@ dependencies:
   http: ^0.12.1
   dio_cookie_manager: ^1.0.0
   cookie_jar: ^1.0.1
+  provide: ^1.0.2
 #  dio:
 #    path: plugin/dio-3.0.9
 #  http:

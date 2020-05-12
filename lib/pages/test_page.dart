@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../service/http_method.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import '../service/ekpUtil.dart';
+import '../service/DioManager.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -49,6 +49,7 @@ class _TestPage extends State<TestPage> {
                 RaisedButton(
                     child: Text('get'),
                     onPressed: () async {
+//                      String baseUrl = "http://10.1.222.66:7777";
                       String baseUrl = "http://ekp.king-long.com.cn";
                       print(Uri.parse(baseUrl));
                       var dio = Dio();
@@ -62,13 +63,17 @@ class _TestPage extends State<TestPage> {
                       // cookieJar.saveFromResponse(Uri.parse(baseUrl), cookieList);
                       // print(cookieList);
                       // second request with the cookie
+
+                      var options = dio.options;
+                      options.baseUrl=baseUrl;
+
                       print("head");
-                      print(await dio.head(baseUrl));
+                      print(await dio.head("/login.jsp"));
                       print("second");
                       cookieList=cookieJar.loadForRequest(Uri.parse(baseUrl));
                       print(cookieList);
-                      cookieJar.saveFromResponse(Uri.parse(baseUrl), cookieList);
-                      print(cookieList);
+//                      cookieJar.saveFromResponse(Uri.parse(baseUrl), cookieList);
+//                      print(cookieList);
 
                       String jSessionId=EkpUtil.getJSessionIdFromCookie(cookieList.toString());
                       String encryptedPwd=await EkpUtil.getEncryptedPasswd("kinglong@2019",jSessionId);
@@ -98,10 +103,12 @@ class _TestPage extends State<TestPage> {
                         'j_lang': 'zh-CN'
                       };
                       dio.options.headers.addAll(headers_base);
-                      var options = dio.options;
-                      options.followRedirects=true;
+
+//                      options.followRedirects=true;
+                      options.validateStatus=(status)=> status >= 200;
+//                      print(await dio.post(baseUrl+"/whereis.jsp"));
                       try{
-                        Response response=await dio.post(baseUrl+"/j_acegi_security_check",data:postData);
+                        Response response=await dio.post("/j_acegi_security_check",data:postData);
                         print("**********************************");
                         print(response.redirects);
                       }catch(e){
@@ -109,9 +116,36 @@ class _TestPage extends State<TestPage> {
 //                        throw e;
                       }
 
-                      print(cookieJar.loadForRequest(Uri.parse(baseUrl)));
-                      dio.close();
-                    })
+                      print(await dio.get("/whereis.jsp"));
+//                      dio.close();
+                      print(cookieJar.loadForRequest(Uri.parse("http://ekp.king-long.com.cn")));
+                    }),
+                SizedBox(height: 10,),
+                RaisedButton(child: Text('http test'),
+                onPressed: () async{
+                  print('http request accour...');
+//                  Dio dio=DioManager.getInstance().getDio();
+//                  Response response=await dio.head("/login.jsp");
+                  EkpUtil.loginEkp();
+
+                },),
+                SizedBox(height: 10,),
+                RaisedButton(child: Text('login'),
+                  onPressed: () async{
+                    print('http request accour...');
+                    DioManager.getInstance().loginEkp();
+//                  Dio dio=DioManager.getInstance().getDio();
+//                  print(await dio.get("/whereis.jsp"));
+
+                  },),
+                SizedBox(height: 10,),
+                RaisedButton(child: Text('whereis'),
+                  onPressed: () async{
+                    print('http request accour...');
+                  Dio dio=DioManager.getInstance().getDio();
+                  print(await dio.get("/whereis.jsp"));
+
+                  },),
               ],
             ))
       ],
