@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
  *系统主题设置，包括系统默认字体 背景色等
  */
 class GlobalConfig {
+//  static String baseUrl = "http://10.1.2.45";
   static String baseUrl = "http://ekp.king-long.com.cn";
   static bool isDebug = true;//是否是调试模式
   static bool dark = false;

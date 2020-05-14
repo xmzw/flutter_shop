@@ -28,6 +28,8 @@ dependencies:
   dio_cookie_manager: ^1.0.0
   cookie_jar: ^1.0.1
   provide: ^1.0.2
+  flutter_screenutil: ^1.0.2
+  shared_preferences: 0.5.7+2
 #  dio:
 #    path: plugin/dio-3.0.9
 #  http:

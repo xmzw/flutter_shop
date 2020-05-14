@@ -24,9 +24,10 @@ class DioManager {
   }
   Dio dio = new Dio();
   CookieJar cookieJar=CookieJar();
+  var baseUrl=GlobalConfig.baseUrl;
 
   DioManager() {
-    var baseUrl=GlobalConfig.baseUrl;
+//    var baseUrl=GlobalConfig.baseUrl;
     // Set default configs
     dio.options.headers = {
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
@@ -65,7 +66,7 @@ class DioManager {
   }
 
   loginEkp() async {
-    String baseUrl = "http://ekp.king-long.com.cn";
+//    String baseUrl = "http://ekp.king-long.com.cn";
     print(Uri.parse(baseUrl));
     var dio = Dio();
     var cookieJar = CookieJar();
